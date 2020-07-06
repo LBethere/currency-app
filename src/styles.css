@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+
+.bg-lightblue {
+    background-color: #def2f8;
+}
+
+.chart-container {
+    height: 350px;
+}
+
+.custom-table tr {
+    width: 100%;
+    display: inline-table;
+    table-layout: fixed;
+    }
+    
+table.custom-table{            
+     display: -moz-groupbox;   
+    }
+
+.custom-table tbody{
+      overflow-y: scroll;      
+      height: 400px;            
+      width: 100%;
+      position: absolute;
+    }

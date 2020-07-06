@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="target-currency-select" class="px-2">Currency</label>
+                    <select class="form-control" type="button" id="target-currency-select" [(ngModel)]="targetCurrency" (change)="parametersChanged()">
+                        <option *ngFor="let curr of dropdownValues">{{curr}}</option>
+                      </select>
+                </div>
+
+                <div class="col-sm-6">
+                    <label for="base-currency-select" class="px-2">Base currency</label>
+                    <select class="form-control" type="button" id="base-currency-select" [(ngModel)]="baseCurrency" (change)="parametersChanged()">
+                        <option *ngFor="let curr of dropdownValues">{{curr}}</option>
+                      </select>
+                </div>
+
+                <div class="col-12">
+                    <label for="daterange-picker">Date interval</label>
+                    <input type="text" class="form-control"
+                            #drp="bsDaterangepicker"
+                             id="daterange-picker"
+                             name="datums"
+                             [bsConfig]="{ rangeInputFormat : 'DD.MM.YYYY', dateInputFormat: 'DD.MM.YYYY', showWeekNumbers: false, containerClass: 'theme-blue'}"
+                             [(ngModel)]="bsRangeValue"
+                             (bsValueChange)="dateChanged($event)"
+                             [maxDate] = "maxDate"
+                             [minDate] = "minDate"
+                             bsDaterangepicker />
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="font-weight-bold text-center">{{baseCurrency}} vs. {{targetCurrency}}</div>
+            <div *ngIf="grafData && grafData.chartLabels.length>0" class="chart-container">
+                <canvas baseChart
+                [datasets]="grafData.chartData"
+                [labels]="grafData.chartLabels"
+                [options]="grafData.chartOptions"
+                [colors]="grafData.chartColors"
+                [chartType]="grafData.chartType"
+                [legend]="false"></canvas>
+            </div>          
+        </div>
+    </div>
+</div>
