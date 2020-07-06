@@ -1,8 +1,8 @@
-# Valūtu Kursi
+# Currency app
 
 This project was generated  [Angular CLI](https://github.com/angular/angular-cli) version 8.3.19.
 
-## Lietojuma palaišana
+## Running the app
 
 1. [Node.js] required;
 
