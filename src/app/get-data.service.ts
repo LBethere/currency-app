@@ -88,6 +88,7 @@ export class GetDataService {
       map( responseData => {
         const dateArray: Date[] = [];
         const valueArray: number[] = [];
+        // SAkartoshana secigi pec datumiem nepiecieshama grafika labels
         Object.keys(responseData.rates).sort().forEach(
           keyName => {
             dateArray.push(new Date(keyName));

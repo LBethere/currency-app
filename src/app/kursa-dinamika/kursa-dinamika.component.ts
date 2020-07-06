@@ -67,10 +67,6 @@ export class KursaDinamikaComponent implements OnInit {
   }
 
   parametersChanged() {
-    //this.grafData = new DefaultChartSettings();
-    // this.grafData.chartOptions.title.text = this.baseCurrency;
-    // this.grafData.chartOptions.scales.yAxes[0].scaleLabel.labelString = this.targetCurrency;
-
     this.baseDateChangeSub = this.getDataService.getPeriodExchangeRates(this.baseCurrency, this.targetCurrency, this.startDate, this.endDate)
     .subscribe(
       data => {      
