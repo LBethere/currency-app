@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {GetDataService, ProcPeriodRates} from './../get-data.service';
 import { Subscription } from 'rxjs';
 import { DefaultChartSettings } from './chart-settings';
@@ -8,7 +8,7 @@ import { DefaultChartSettings } from './chart-settings';
   templateUrl: './kursa-dinamika.component.html',
   styleUrls: ['./kursa-dinamika.component.css']
 })
-export class KursaDinamikaComponent implements OnInit {
+export class KursaDinamikaComponent implements OnInit, OnDestroy {
 
   initSub: Subscription;
   baseDateChangeSub: Subscription;
@@ -28,24 +28,24 @@ export class KursaDinamikaComponent implements OnInit {
   grafData: DefaultChartSettings = new DefaultChartSettings();
 
   constructor(
-    private getDataService: GetDataService) { 
+    private getDataService: GetDataService) {
     }
 
   ngOnInit() {
- 
+
     this.dropdownValues = [];
     this.bsRangeValue = [this.startDate, this.endDate];
 
     this.initSub = this.getDataService.getLatestExchangeRates().subscribe(
       data => {
-        
+
         this.baseCurrency = data.base;
         this.maxDate = new Date(data.date);
-        
-        for(const elem of data.rates) {
+
+        for (const elem of data.rates) {
           this.dropdownValues.push(elem.code);
                 }
-        
+
         this.targetCurrency = this.dropdownValues[0];
         this.dropdownValues.push(this.baseCurrency);
         this.dropdownValues.sort();
@@ -53,39 +53,41 @@ export class KursaDinamikaComponent implements OnInit {
         this.parametersChanged();
       },
       error => {
-        //error handling
+        // error handling
       }
     );
   }
 
-  dateChanged(e){
-    if (e && (this.startDate.valueOf() != new Date(e[0]).valueOf() || this.endDate.valueOf() != new Date(e[1]).valueOf())){
+  dateChanged(e) {
+    if (e && (this.startDate.valueOf() !== new Date(e[0]).valueOf() ||
+    this.endDate.valueOf() !== new Date(e[1]).valueOf())) {
       this.startDate = new Date(e[0]);
       this.endDate = new Date(e[1]);
       this.parametersChanged();
-    } 
+    }
   }
 
   parametersChanged() {
-    this.baseDateChangeSub = this.getDataService.getPeriodExchangeRates(this.baseCurrency, this.targetCurrency, this.startDate, this.endDate)
+    this.baseDateChangeSub = this.getDataService.getPeriodExchangeRates(this.baseCurrency,
+      this.targetCurrency, this.startDate, this.endDate)
     .subscribe(
-      data => {      
+      data => {
         this.grafData.chartLabels = data.dates;
         this.grafData.chartData[0].data = data.rates;
       },
       error => {
-        //error handling
+        // error handling
       }
     );
   }
 
   ngOnDestroy() {
-    if (this.initSub){
+    if (this.initSub) {
       this.initSub.unsubscribe();
     }
-    if (this.baseDateChangeSub){
+    if (this.baseDateChangeSub) {
       this.baseDateChangeSub.unsubscribe();
-    }    
+    }
   }
 
 }

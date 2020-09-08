@@ -16,7 +16,7 @@ export class AktualieKursiComponent implements OnInit, OnDestroy {
   activeDate: Date;
   tableData: {code: string, rate: number}[];
 
-  //settingi datepicker
+  // settingi datepicker
   maxDate: Date;
   minDate: Date = new Date(1999, 0, 1);
 
@@ -28,26 +28,26 @@ export class AktualieKursiComponent implements OnInit, OnDestroy {
     this.initSub = this.getDataService.getLatestExchangeRates().subscribe(
       data => {
         this.maxDate = new Date(data.date);
-        this.prepareData(data);       
+        this.prepareData(data);
       },
       error => {
-        //error handling
+        // error handling
       }
     );
   }
 
   prepareData(data: ProcRates) {
     this.baseCurrency = data.base;
-    this.activeDate = new Date(data.date);    
+    this.activeDate = new Date(data.date);
     this.tableData = data.rates;
   }
 
 
-  dateChanged(e: any){
-    if (e && this.activeDate.valueOf() != new Date(e).valueOf()){
+  dateChanged(e: any) {
+    if (e && this.activeDate.valueOf() !== new Date(e).valueOf()) {
       this.activeDate = new Date(e);
       this.parametersChanged();
-    }   
+    }
   }
 
   parametersChanged() {
@@ -57,18 +57,18 @@ export class AktualieKursiComponent implements OnInit, OnDestroy {
         this.prepareData(data);
       },
       error => {
-        //error handling
+        // error handling
       }
     );
   }
 
   ngOnDestroy() {
-    if (this.initSub){
+    if (this.initSub) {
       this.initSub.unsubscribe();
     }
-    if (this.baseDateChangeSub){
+    if (this.baseDateChangeSub) {
       this.baseDateChangeSub.unsubscribe();
-    }    
+    }
   }
 
 }

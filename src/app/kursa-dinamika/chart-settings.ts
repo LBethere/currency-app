@@ -1,6 +1,6 @@
 export class DefaultChartSettings {
-  chartType = "line";
-  chartData: {data: number[], label: string, fill: boolean, lineTension: number}[] = [{ data: [], label: "", fill: false, lineTension: 0 }];
+  chartType = 'line';
+  chartData: {data: number[], label: string, fill: boolean, lineTension: number}[] = [{ data: [], label: '', fill: false, lineTension: 0 }];
   chartLabels: Date[] = [];
 
   chartOptions = {
@@ -28,17 +28,15 @@ export class DefaultChartSettings {
   };
   chartColors = [
     {
-      borderColor: "#144f61",
+      borderColor: '#144f61',
       borderWidth: 3,
       pointBorderWidth: 1,
-      pointBackgroundColor: "#5bc0de",
-      pointBorderColor: "#144f61",
-      pointHoverBackgroundColor: "#5bc0de",
-      pointHoverBorderColor: "#144f61",
+      pointBackgroundColor: '#5bc0de',
+      pointBorderColor: '#144f61',
+      pointHoverBackgroundColor: '#5bc0de',
+      pointHoverBorderColor: '#144f61',
     }
   ];
     constructor() {
     }
-  ngOnInit() {
-  }
 }
