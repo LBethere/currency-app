@@ -4,7 +4,7 @@ This project was generated  [Angular CLI](https://github.com/angular/angular-cli
 
 ## Running the app
 
-1. [Node.js] required;
+1. [Node.js] and Angular required;
 
 2. After download run `npm install` from project directory;
 
