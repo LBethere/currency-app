@@ -20,20 +20,27 @@ export class AktualieKursiComponent implements OnInit, OnDestroy {
   maxDate: Date;
   minDate: Date = new Date(1999, 0, 1);
 
+  // TESTING
+  initRatesArray: {code: string, rate: number}[] = 
+  [{code: 'CAN', rate: 1.44}, {code: 'EUR', rate: 1.1}]
+
   constructor(
-    private getDataService: GetDataService
+    //private getDataService: GetDataService
   ) { }
 
   ngOnInit() {
-    this.initSub = this.getDataService.getLatestExchangeRates().subscribe(
-      data => {
-        this.maxDate = new Date(data.date);
-        this.prepareData(data);
-      },
-      error => {
-        // error handling
-      }
-    );
+    // this.initSub = this.getDataService.getLatestExchangeRates().subscribe(
+    //   data => {
+    //     this.maxDate = new Date(data.date);
+    //     this.prepareData(data);
+    //   },
+    //   error => {
+    //     // error handling
+    //   }
+    // );
+
+    // TESTING
+    this.prepareData({base: 'LVL', date: new Date(), rates: this.initRatesArray})
   }
 
   prepareData(data: ProcRates) {
@@ -51,15 +58,15 @@ export class AktualieKursiComponent implements OnInit, OnDestroy {
   }
 
   parametersChanged() {
-    this.baseDateChangeSub = this.getDataService.getCustomExchangeRates(this.baseCurrency, this.activeDate)
-    .subscribe(
-      data => {
-        this.prepareData(data);
-      },
-      error => {
-        // error handling
-      }
-    );
+    // this.baseDateChangeSub = this.getDataService.getCustomExchangeRates(this.baseCurrency, this.activeDate)
+    // .subscribe(
+    //   data => {
+    //     this.prepareData(data);
+    //   },
+    //   error => {
+    //     // error handling
+    //   }
+    // );
   }
 
   ngOnDestroy() {

@@ -12,13 +12,15 @@ import { KursaDinamikaComponent } from './kursa-dinamika/kursa-dinamika.componen
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {GetDataService} from './get-data.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ExerciseTestComponent } from './exercise-test/exercise-test.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AktualieKursiComponent,
     KursaDinamikaComponent,
-    NavBarComponent
+    NavBarComponent,
+    ExerciseTestComponent
   ],
   imports: [
     BrowserModule,
