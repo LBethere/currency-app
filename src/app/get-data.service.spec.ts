@@ -38,16 +38,31 @@ it('should return Latest exchange rates', () => {
         rates: initRatesObject
     }
 
+    const sampleOneDayRates = {
+        base: 'LVL',
+        date: new Date(2020,9,9),
+        rates: [{code: 'CAN', rate: 1.44}, {code: 'EUR', rate: 1.1}]
+      }
+
     httpClientSpy.get.and.returnValue(of(sampleResponseRates));
 
     service.getLatestExchangeRates().subscribe(
         data => {
-            expect(data).toEqual(sampleResponseRates)
+            expect(data).toEqual(sampleOneDayRates)
         },
         error => {
             fail('there should be no error in this spec')
         }
     );
+
+    // service.getLatestExchangeRates().subscribe(
+    //     data => {
+    //         expect(data).toEqual(sampleResponseRates)
+    //     },
+    //     error => {
+    //         fail('there should be no error in this spec')
+    //     }
+    // );
 
     expect(httpClientSpy.get.calls.count()).toBe(1 ,'1 call made');
 })

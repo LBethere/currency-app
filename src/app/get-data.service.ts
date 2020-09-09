@@ -56,25 +56,25 @@ export class GetDataService {
     return rateArray;
   }
 
-  getLatestExchangeRates(): Observable<SingleDayRates> {
-    const dataURL: string = BASE_URL + 'latest';
-    return this.http.get<SingleDayRates>(dataURL);
-
-  }
-
-  // getLatestExchangeRates(): Observable<ProcRates> {
+  // getLatestExchangeRates(): Observable<SingleDayRates> {
   //   const dataURL: string = BASE_URL + 'latest';
-  //   return this.http.get<SingleDayRates>(dataURL).pipe(
-  //     map( responseData => {
-  //       const rateArray: OneRate[] = this.objectToArray(responseData.rates);
-  //       return {base: responseData.base, date: responseData.date, rates: rateArray};
-  //     }),
-  //     catchError(errorRes => {
-  //       return throwError(errorRes);
-  //     })
-  //     );
+  //   return this.http.get<SingleDayRates>(dataURL);
 
   // }
+
+  getLatestExchangeRates(): Observable<ProcRates> {
+    const dataURL: string = BASE_URL + 'latest';
+    return this.http.get<SingleDayRates>(dataURL).pipe(
+      map( responseData => {
+        const rateArray: OneRate[] = this.objectToArray(responseData.rates);
+        return {base: responseData.base, date: responseData.date, rates: rateArray};
+      }),
+      catchError(errorRes => {
+        return throwError(errorRes);
+      })
+      );
+
+  }
 
   getCustomExchangeRates(baseCurrency: string, date: Date): Observable<ProcRates> {
     const dateVal = formatDate(date, 'yyyy-MM-dd', 'en-US', null);
