@@ -16,7 +16,7 @@
                     <input type="text" class="form-control"
                              id="date-picker"
                              name="datums"
-                             [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY', containerClass: 'theme-blue'}"
+                             [bsConfig]="{ containerClass: 'theme-blue'}"
                              [bsValue]="activeDate"
                              (bsValueChange)="dateChanged($event)"
                              [maxDate] = "maxDate"
@@ -24,7 +24,7 @@
                              bsDatepicker />
                 </div>
             </div>
-
+            <!-- dateInputFormat: 'DD.MM.YYYY',  -->
         </div>
         <div class="col-md-6">
             <table class="table table-striped table-sm custom-table">

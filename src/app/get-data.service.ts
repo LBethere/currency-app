@@ -56,12 +56,6 @@ export class GetDataService {
     return rateArray;
   }
 
-  // getLatestExchangeRates(): Observable<SingleDayRates> {
-  //   const dataURL: string = BASE_URL + 'latest';
-  //   return this.http.get<SingleDayRates>(dataURL);
-
-  // }
-
   getLatestExchangeRates(): Observable<ProcRates> {
     const dataURL: string = BASE_URL + 'latest';
     return this.http.get<SingleDayRates>(dataURL).pipe(
