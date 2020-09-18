@@ -115,4 +115,16 @@ describe('AktualieKursiComponent', () => {
             expect(tableRows[i].nativeElement.textContent).toContain(testDateChangedResponse.rates[i].rate.toString());
         }
     });
+
+    it('should NOT call new data if date was not changed', () => {
+        spyOn(fixture.componentInstance, 'parametersChanged');
+        component.activeDate = testDateChangedResponse.date;
+
+        const inputElem = fixture.debugElement.query(By.css('input'));
+        inputElem.triggerEventHandler('bsValueChange', testDateChangedResponse.date);
+
+        fixture.detectChanges();
+
+        expect(fixture.componentInstance.parametersChanged).not.toHaveBeenCalled();
+    })
 })
