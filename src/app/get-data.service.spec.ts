@@ -1,13 +1,21 @@
 import {TestBed} from '@angular/core/testing';
 
 import { GetDataService } from './get-data.service';
+import { formatDate } from '@angular/common';
 import { of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+//import { HttpClient } from '@angular/common/http';
+import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing"
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 describe('GetDataService', () => {
     let service: GetDataService;
-    //let httpClientSpy: {get: jasmine.Spy}
-    let httpClientSpy: jasmine.SpyObj<HttpClient>;
+    let mockHttpService;
+    let httpTestingController: HttpTestingController;
+
+    const BASE_URL = 'https://api.exchangeratesapi.io/';
+
+    let sampleOneDayRates, wrongSampleOneDayRates;
 
     const initRatesObject: {[key: string]: number} = {
         EUR: 1.1,
@@ -18,33 +26,22 @@ describe('GetDataService', () => {
         base: 'LVL',
         date: new Date(2020,9,9),
         rates: initRatesObject
-    }    
+    } 
 
 beforeEach(() => {
-    const spy = jasmine.createSpyObj('HttpClient', ['get']);
+    //const spy = jasmine.createSpyObj('HttpClient', ['get']);
+    mockHttpService = jasmine.createSpyObj(['get']);
 
     TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule],
         providers: [
-            GetDataService,
-            {provide: HttpClient, useValue: spy}
+            GetDataService
         ]
     });
 
-    service = TestBed.inject(GetDataService);
-    httpClientSpy = TestBed.inject(HttpClient) as 
-    jasmine.SpyObj<HttpClient>;
-
-    // httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    // service = new GetDataService(<any>httpClientSpy);
-    // TestBed.configureTestingModule({});
-    //service = TestBed.inject(GetDataService);
-
+    httpTestingController = TestBed.inject(HttpTestingController);
+    service = TestBed.inject(GetDataService); 
 });
-
-afterEach(() => {
-    service = null;
-    httpClientSpy = null;
-})
 
 it('should be created', () => {
     expect(service).toBeTruthy();
@@ -53,50 +50,161 @@ it('should be created', () => {
 it('should convert object to Array', () => {
     expect(service.objectToArray(initRatesObject))
     .toEqual([{code: 'CAN', rate: 1.44}, {code: 'EUR', rate: 1.1}])
-})
-
-it('should return Latest exchange rates', () => {
-
-    const sampleOneDayRates = {
-        base: 'LVL',
-        date: new Date(2020,9,9),
-        rates: service.objectToArray(sampleResponseRates.rates)
-    }
-
-    httpClientSpy.get.and.returnValue(of(sampleResponseRates));
-
-    service.getLatestExchangeRates().subscribe(
-        data => {
-            expect(data).toEqual(sampleOneDayRates)
-        },
-        error => {
-            fail('there should be no error in this spec')
-        }
-    );
-
-    expect(httpClientSpy.get.calls.count()).toBe(1 ,'1 call made');
 });
 
-it('should return exchange rates for custom date', () => {
+describe('getLatestExchangeRates', () => {
 
-    const sampleOneDayRates = {
-        base: 'LVL',
-        date: new Date(2020,9,9),
-        rates: service.objectToArray(sampleResponseRates.rates)
-    }
+    it('should call get with the correct URL and return correctly processed data', () => {
+        sampleOneDayRates = {
+            base: 'LVL',
+            date: new Date(2020,9,9),
+            rates: service.objectToArray(sampleResponseRates.rates)
+        } 
+    
+        service.getLatestExchangeRates().subscribe(
+            data => {
+                expect(data).toEqual(sampleOneDayRates);
+            }
+        );
+    
+        const requests = httpTestingController.match(BASE_URL+'latest');
+        expect(requests.length).toBe(1);
+        requests[0].flush(sampleResponseRates);
+        httpTestingController.verify();
+    });
 
-    httpClientSpy.get.and.returnValue(of(sampleResponseRates));
+    it('should return an error if server not available', () => {
+    const mockErrorResponse = {
+            error: 'demo 404 error',
+            status: 404,
+            statusText: 'demo resource not found'
+          };       
+    //const data = 'Invalid request parameters';
 
-    service.getCustomExchangeRates(sampleResponseRates.base, sampleResponseRates.date).subscribe(
-        data => {
-            expect(data).toEqual(sampleOneDayRates)
-        },
+    service.getLatestExchangeRates().subscribe(
+        data => fail('should be an error scenario'),
         error => {
-            fail('there should be no error in this spec')
+            expect(error.statusText).toContain('demo resource not found');
         }
     );
+    const requests = httpTestingController.match(BASE_URL+'latest');
+    expect(requests.length).toBe(1);
+    requests[0].flush(null, mockErrorResponse);
+    httpTestingController.verify();
+    })
 
-    expect(httpClientSpy.get.calls.count()).toBe(1 ,'1 call made');
 })
 
+describe('getCustomExchangeRates', () => {
+    it('should call get with the correct URL and return correctly processed data', () => {
+        sampleOneDayRates = {
+            base: 'LVL',
+            date: new Date(2020,9,9),
+            rates: service.objectToArray(sampleResponseRates.rates)
+        } 
+    
+        service.getCustomExchangeRates(sampleResponseRates.base, sampleResponseRates.date).subscribe(
+            data => {
+                expect(data).toEqual(sampleOneDayRates);
+            }
+        );
+        
+        const dateVal = formatDate(sampleResponseRates.date, 'yyyy-MM-dd', 'en-US', null);
+        const requests = httpTestingController.match(BASE_URL + `${dateVal}/?base=${sampleResponseRates.base}`);
+        expect(requests.length).toBe(1);
+        requests[0].flush(sampleResponseRates);
+        httpTestingController.verify(); //test that there are no outstanding subscriptions
+    
+    });
+
+    it('should return an error if server not available', () => {
+        const mockErrorResponse = {
+                error: 'demo 404 error',
+                status: 404,
+                statusText: 'demo resource not found'
+              };       
+        //const data = 'Invalid request parameters';
+    
+        service.getCustomExchangeRates(sampleResponseRates.base, sampleResponseRates.date).subscribe(
+            data => fail('should be an error scenario'),
+            error => {
+                expect(error.statusText).toContain('demo resource not found');
+            }
+        );
+        const dateVal = formatDate(sampleResponseRates.date, 'yyyy-MM-dd', 'en-US', null);
+        const requests = httpTestingController.match(BASE_URL + `${dateVal}/?base=${sampleResponseRates.base}`);
+        expect(requests.length).toBe(1);
+        requests[0].flush(null, mockErrorResponse);
+        httpTestingController.verify();
+        });
+});
+
+describe('getPeriodExchangeRates', () => {
+    it('should call get with the correct URL and return correctly processed data', () => {
+        const samplePeriodResponseRates = {
+            base: 'LVL',
+            end_at: '2020-08-10',
+            start_at: '2020-08-08',
+            rates: {
+                '2020-08-08' : { 'EUR' : 1.1},
+                '2020-08-09' : { 'EUR' : 1.2},
+                '2020-08-10' : { 'EUR' : 1.3},
+            }
+        }
+        const samplePeriodProcessedRates = {
+            base: 'LVL',
+            dates: [new Date(2020, 7, 8), new Date(2020, 7, 9), new Date(2020, 7, 10)],
+            rates: [1.1, 1.2, 1.3]
+        }
+        const startDate = new Date(2020, 7, 8);
+        const endDate = new Date(2020, 7, 10);
+        const startDateVal = formatDate(startDate, 'yyyy-MM-dd', 'en-US', null);
+        const endDateVal = formatDate(endDate, 'yyyy-MM-dd', 'en-US', null);
+    
+        service.getPeriodExchangeRates('LVL', 
+        'EUR', 
+        startDate, 
+        endDate).subscribe(
+            data => {
+                expect(data.base).toEqual(samplePeriodProcessedRates.base);
+                expect(data.rates).toEqual(samplePeriodProcessedRates.rates);
+                for(let i=0; i<data.dates.length; i++) {
+                    expect(data.dates[i].toLocaleDateString()).toEqual(samplePeriodProcessedRates.dates[i].toLocaleDateString());
+                }
+            }
+        );
+    
+        const requests = httpTestingController.match(BASE_URL + `history?start_at=${startDateVal}&end_at=${endDateVal}&base=LVL&symbols=EUR`);
+        expect(requests.length).toBe(1);
+        requests[0].flush(samplePeriodResponseRates);
+        httpTestingController.verify();   
+    });
+
+    it('should return an error if server not available', () => {
+        const mockErrorResponse = {
+                error: 'demo 404 error',
+                status: 404,
+                statusText: 'demo resource not found'
+              };       
+        const startDate = new Date(2020, 7, 8);
+        const endDate = new Date(2020, 7, 10);
+        const startDateVal = formatDate(startDate, 'yyyy-MM-dd', 'en-US', null);
+        const endDateVal = formatDate(endDate, 'yyyy-MM-dd', 'en-US', null);
+    
+        service.getPeriodExchangeRates('LVL', 
+        'EUR', 
+        startDate, 
+        endDate).subscribe(
+            data => fail('should be an error scenario'),
+            error => {
+                expect(error.statusText).toContain('demo resource not found');
+            }
+        );
+        const dateVal = formatDate(sampleResponseRates.date, 'yyyy-MM-dd', 'en-US', null);
+        const requests = httpTestingController.match(BASE_URL + `history?start_at=${startDateVal}&end_at=${endDateVal}&base=LVL&symbols=EUR`);
+        expect(requests.length).toBe(1);
+        requests[0].flush(null, mockErrorResponse);
+        httpTestingController.verify();
+        });
+})
 })
