@@ -26,7 +26,7 @@ describe('ExerciseTestComponent', () => {
   it('should display value of test', () => {
     expect(component.test).toBe('hello');
 
-    let p = fixture.nativeElement.querySelector('p');
+    const p = fixture.nativeElement.querySelector('p');
     expect(p.textContent).toContain('hello');
 
     component.myMethod();

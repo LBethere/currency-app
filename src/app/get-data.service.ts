@@ -43,7 +43,7 @@ export class GetDataService {
 
   constructor(
     private http: HttpClient
-  ) { } 
+  ) { }
 
   objectToArray(ratesObject: {[key: string]: number}) {
     const rateArray: OneRate[] = [];
