@@ -25,6 +25,11 @@ export class AktualieKursiComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    // let now = new Date();
+    // now.setHours(now.getHours()+1);
+    // document.cookie = "name2=name2;";
+    //document.cookie = "expires=" + now.toUTCString() + ";"
+    //console.log(document.cookie.split(';'));
     this.initSub = this.getDataService.getLatestExchangeRates().subscribe(
       data => {
         this.maxDate = new Date(data.date);

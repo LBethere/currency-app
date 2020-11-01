@@ -23,7 +23,7 @@
                             #drp="bsDaterangepicker"
                              id="daterange-picker"
                              name="datums"
-                             [bsConfig]="{ rangeInputFormat : 'DD.MM.YYYY', dateInputFormat: 'DD.MM.YYYY', showWeekNumbers: false, containerClass: 'theme-blue'}"
+                             [bsConfig]="{showWeekNumbers: false, containerClass: 'theme-blue'}"
                              [(ngModel)]="bsRangeValue"
                              (bsValueChange)="dateChanged($event)"
                              [maxDate] = "maxDate"
@@ -34,7 +34,7 @@
 
         </div>
         <div class="col-md-6">
-            <div class="font-weight-bold text-center">{{baseCurrency}} vs. {{targetCurrency}}</div>
+            <div class="font-weight-bold text-center" id="chart-title">{{baseCurrency}} vs. {{targetCurrency}}</div>
             <div *ngIf="grafData && grafData.chartLabels.length>0" class="chart-container">
                 <canvas baseChart
                 [datasets]="grafData.chartData"
@@ -43,7 +43,7 @@
                 [colors]="grafData.chartColors"
                 [chartType]="grafData.chartType"
                 [legend]="false"></canvas>
-            </div>          
+            </div>
         </div>
     </div>
 </div>

@@ -33,6 +33,7 @@ interface PeriodRates {
 export interface ProcPeriodRates {
   base: string;
   dates: Date[];
+  target: string;
   rates: number[];
 }
 
@@ -71,7 +72,7 @@ export class GetDataService {
   }
 
   getCustomExchangeRates(baseCurrency: string, date: Date): Observable<ProcRates> {
-    const dateVal = formatDate(date, 'yyyy-MM-dd', 'en-US', null);
+    const dateVal = formatDate(date, 'yyyy-MM-dd', 'en-US');
     const dataURL: string = BASE_URL + `${dateVal}/?base=${baseCurrency}`;
     return this.http.get<SingleDayRates>(dataURL).pipe(
       map( responseData => {
@@ -85,8 +86,8 @@ export class GetDataService {
   }
 
   getPeriodExchangeRates(baseCurrency: string, targetCurrency: string, startDate: Date, endDate: Date): Observable<ProcPeriodRates> {
-    const fromDateVal = formatDate(startDate, 'yyyy-MM-dd', 'en-US', null);
-    const toDateVal = formatDate(endDate, 'yyyy-MM-dd', 'en-US', null);
+    const fromDateVal = formatDate(startDate, 'yyyy-MM-dd', 'en-US');
+    const toDateVal = formatDate(endDate, 'yyyy-MM-dd', 'en-US');
     const dataURL: string = BASE_URL + `history?start_at=${fromDateVal}&end_at=${toDateVal}&base=${baseCurrency}&symbols=${targetCurrency}`;
     return this.http.get<PeriodRates>(dataURL).pipe(
       map( responseData => {
@@ -99,7 +100,7 @@ export class GetDataService {
             valueArray.push(responseData.rates[keyName][targetCurrency]);
           }
         );
-        return {base: responseData.base, dates: dateArray, rates: valueArray};
+        return {base: responseData.base, target: Object.keys(responseData.rates)[0], dates: dateArray, rates: valueArray};
       }),
       catchError(errorRes => {
         return throwError(errorRes);

@@ -13,6 +13,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {GetDataService} from './get-data.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExerciseTestComponent } from './exercise-test/exercise-test.component';
+import { TrainingComponent } from './training/training.component';
+import { FormTrainingComponent } from './form-training/form-training.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { ExerciseTestComponent } from './exercise-test/exercise-test.component';
     AktualieKursiComponent,
     KursaDinamikaComponent,
     NavBarComponent,
-    ExerciseTestComponent
+    ExerciseTestComponent,
+    TrainingComponent,
+    FormTrainingComponent
   ],
   imports: [
     BrowserModule,
