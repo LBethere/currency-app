@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExerciseTestComponent } from './exercise-test/exercise-test.component';
 import { TrainingComponent } from './training/training.component';
 import { FormTrainingComponent } from './form-training/form-training.component';
+import { Form1Component } from './form-training/form1/form1.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FormTrainingComponent } from './form-training/form-training.component';
     NavBarComponent,
     ExerciseTestComponent,
     TrainingComponent,
-    FormTrainingComponent
+    FormTrainingComponent,
+    Form1Component
   ],
   imports: [
     BrowserModule,

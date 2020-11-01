@@ -4,6 +4,14 @@
     background-color: #def2f8;
 }
 
+.bg-dark {
+  background-color: #144f61;
+}
+
+.bg-lightlightblue {
+  background-color: #f5fbfc;
+}
+
 .chart-container {
     height: 350px;
 }
@@ -13,14 +21,14 @@
     display: inline-table;
     table-layout: fixed;
     }
-    
-table.custom-table{            
-     display: -moz-groupbox;   
+
+table.custom-table{
+     display: -moz-groupbox;
     }
 
 .custom-table tbody{
-      overflow-y: scroll;      
-      height: 400px;            
+      overflow-y: scroll;
+      height: 400px;
       width: 100%;
       position: absolute;
     }
