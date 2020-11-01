@@ -1,10 +1,10 @@
 # Currency app
 
-This project was generated  [Angular CLI](https://github.com/angular/angular-cli) version 8.3.19.
+This project uses  [Angular CLI](https://github.com/angular/angular-cli) version 10.1.0.
 
 ## Running the app
 
-1. [Node.js] and Angular required;
+1. [Node.js](https://nodejs.org/en/) and [Angular CLI](https://github.com/angular/angular-cli) required;
 
 2. After download run `npm install` from project directory;
 
