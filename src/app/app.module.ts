@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ButtonsModule } from 'ngx-bootstrap/buttons'
 import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -34,8 +35,10 @@ import { Form1Component } from './form-training/form1/form1.component';
     HttpClientModule,
     FormsModule,
     BsDatepickerModule.forRoot(),
+    ButtonsModule.forRoot(),
     BrowserAnimationsModule,
-    ChartsModule
+    ChartsModule,
+    HttpClientModule
   ],
   providers: [GetDataService],
   bootstrap: [AppComponent]
