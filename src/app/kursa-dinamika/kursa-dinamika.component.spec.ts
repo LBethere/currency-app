@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { GetDataService } from '../get-data.service';
-import { KursaDinamikaComponent } from "./kursa-dinamika.component";
+import { KursaDinamikaComponent } from './kursa-dinamika.component';
 import { of } from 'rxjs';
 import {By} from '@angular/platform-browser';
 
@@ -24,28 +24,28 @@ describe('KursaDinamikaComponent', () => {
       target: 'EUR',
       dates: [new Date(2020, 7, 8), new Date(2020, 7, 9), new Date(2020, 7, 10)],
       rates: [1.1, 1.2, 1.3]
-  }
+  };
 
-  const testChangedBasePeriodResponse = {
+    const testChangedBasePeriodResponse = {
     base: 'CAN',
     target: 'EUR',
     dates: [new Date(2020, 7, 8), new Date(2020, 7, 9), new Date(2020, 7, 10)],
     rates: [1.7, 1.8, 1.9]
-}
+};
 
-const testChangedTargetPeriodResponse = {
+    const testChangedTargetPeriodResponse = {
   base: 'LVL',
   target: 'CAN',
   dates: [new Date(2020, 7, 8), new Date(2020, 7, 9), new Date(2020, 7, 10)],
   rates: [2.1, 2.2, 2.3]
-}
+};
 
-const testChangedDateRangePeriodResponse = {
+    const testChangedDateRangePeriodResponse = {
   base: 'LVL',
   target: 'EUR',
   dates: [new Date(2020, 1, 8), new Date(2020, 1, 9), new Date(2020, 1, 10)],
   rates: [3.1, 3.2, 3.3]
-}
+};
 
     beforeEach(() => {
         mockGetDataService = jasmine.createSpyObj('GetDataService', ['getLatestExchangeRates', 'getPeriodExchangeRates']);
@@ -91,7 +91,7 @@ const testChangedDateRangePeriodResponse = {
         expect(component.grafData.chartData[0].data).toEqual(testInitialPeriodResponse.rates);
         expect(component.grafData.chartLabels).toEqual(testInitialPeriodResponse.dates);
 
-        const chartTitle = fixture.debugElement.query(By.css('#chart-title'))
+        const chartTitle = fixture.debugElement.query(By.css('#chart-title'));
         expect(chartTitle.nativeElement.textContent).toContain(testInitialResponse.base);
         expect(chartTitle.nativeElement.textContent).toContain(component.targetCurrency);
     });
@@ -99,7 +99,7 @@ const testChangedDateRangePeriodResponse = {
     it('should render data after base change', () => {
 
       mockGetDataService.getPeriodExchangeRates.and.returnValue(of(testChangedBasePeriodResponse));
-      //spyOn(fixture.componentInstance, 'parametersChanged');
+      // spyOn(fixture.componentInstance, 'parametersChanged');
 
       const selectElem = fixture.debugElement.query(By.css('#base-currency-select'));
       selectElem.triggerEventHandler('change', null);
@@ -109,11 +109,11 @@ const testChangedDateRangePeriodResponse = {
       expect(component.grafData.chartData[0].data).toEqual(testChangedBasePeriodResponse.rates);
       expect(component.grafData.chartLabels).toEqual(testChangedBasePeriodResponse.dates);
 
-      const chartTitle = fixture.debugElement.query(By.css('#chart-title'))
-        expect(chartTitle.nativeElement.textContent).toContain(testChangedBasePeriodResponse.base);
-        expect(chartTitle.nativeElement.textContent).toContain(testChangedBasePeriodResponse.target);
+      const chartTitle = fixture.debugElement.query(By.css('#chart-title'));
+      expect(chartTitle.nativeElement.textContent).toContain(testChangedBasePeriodResponse.base);
+      expect(chartTitle.nativeElement.textContent).toContain(testChangedBasePeriodResponse.target);
 
-      //expect(fixture.componentInstance.parametersChanged).toHaveBeenCalledTimes(1);
+      // expect(fixture.componentInstance.parametersChanged).toHaveBeenCalledTimes(1);
     });
 
     it('should render data after target change', () => {
@@ -129,11 +129,11 @@ const testChangedDateRangePeriodResponse = {
       expect(component.grafData.chartLabels).toEqual(testChangedTargetPeriodResponse.dates);
 
 
-      const chartTitle = fixture.debugElement.query(By.css('#chart-title'))
-        expect(chartTitle.nativeElement.textContent).toContain(testChangedTargetPeriodResponse.base);
-        expect(chartTitle.nativeElement.textContent).toContain(testChangedTargetPeriodResponse.target);
+      const chartTitle = fixture.debugElement.query(By.css('#chart-title'));
+      expect(chartTitle.nativeElement.textContent).toContain(testChangedTargetPeriodResponse.base);
+      expect(chartTitle.nativeElement.textContent).toContain(testChangedTargetPeriodResponse.target);
 
-        expect(fixture.componentInstance.parametersChanged).toHaveBeenCalledTimes(1);
+      expect(fixture.componentInstance.parametersChanged).toHaveBeenCalledTimes(1);
     });
 
     it('should render data after date period change', () => {
@@ -146,4 +146,4 @@ const testChangedDateRangePeriodResponse = {
 
 
 
-})
+});

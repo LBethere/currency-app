@@ -17,14 +17,14 @@ export class Form1Component implements OnInit {
     interfaceStyle: 'dark',
     subscriptionType: 'Annual',
     notes: 'here are some notes...'
-  }
+  };
 
-  userSettings: UserSettings = {...this.originalUserSettings}
+  userSettings: UserSettings = {...this.originalUserSettings};
   postError = false;
   postErrorMessage = '';
   SubscriptionTypes: Observable<string[]>;
 
-  singleModel = "On";
+  singleModel = 'On';
 
   constructor(private dataService: DataService) { }
 
@@ -33,13 +33,13 @@ export class Form1Component implements OnInit {
   }
 
   onSubmit(form: NgForm){
-    console.log("Submitted!", form.valid);
-    console.log(this.userSettings)
+    console.log('Submitted!', form.valid);
+    console.log(this.userSettings);
 
     if (form.valid) {
       this.dataService.postUserSettingsForm(this.userSettings).subscribe(
-        result => {console.log('success: ', result)},
-        error => {this.onHttpError(error);}
+        result => {console.log('success: ', result); },
+        error => {this.onHttpError(error); }
       );
     }
     else {
@@ -56,7 +56,7 @@ export class Form1Component implements OnInit {
   }
 
   onBlur(field: NgModel) {
-    console.log('in onBlur: ', field.valid)
+    console.log('in onBlur: ', field.valid);
   }
 
 }

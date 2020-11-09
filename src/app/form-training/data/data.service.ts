@@ -11,12 +11,12 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   getSubscriptionTypes(): Observable<string[]> {
-    return of(['Monthly', 'Annual', 'Lifetime'])
+    return of(['Monthly', 'Annual', 'Lifetime']);
   }
 
-  postUserSettingsForm(userSettings: UserSettings) : Observable<any> {
+  postUserSettingsForm(userSettings: UserSettings): Observable<any> {
 
-    //return this.http.post('https://putsreq.com/Is7YkorE10oXzX0J2Mfw', userSettings);
+    // return this.http.post('https://putsreq.com/Is7YkorE10oXzX0J2Mfw', userSettings);
 
     // response.status = 400;
     // response.body = { errorMessage: 'Some Error goes here ...'};
