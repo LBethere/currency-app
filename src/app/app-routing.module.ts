@@ -6,7 +6,7 @@ import { TrainingComponent } from './training/training.component';
 import { FormTrainingComponent } from './form-training/form-training.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/formExamples', pathMatch: 'full'},
+  {path: '', redirectTo: '/aktualie', pathMatch: 'full'},
   { path: 'formExamples', component: FormTrainingComponent },
   {path: 'aktualie', component: AktualieKursiComponent},
   {path: 'dinamika', component: KursaDinamikaComponent},
