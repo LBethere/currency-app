@@ -1,3 +1,5 @@
+Not working anymore as API that was used for currency rates has been moved.
+
 # Currency app
 
 This project uses  [Angular CLI](https://github.com/angular/angular-cli) version 10.1.0.
